@@ -7,13 +7,27 @@ export const tokenResetPassword = async ( email: string ) => {
    try {
       const userExit = await db.user.findUnique({
          where: {
-            email
+            email,
          }
       });
 
       if (!userExit) {
          return { error: 'Not found'}
       };
+
+      const socialMedia = await db.account.findFirst({
+         where: {
+            userId: userExit.id
+         }
+      })
+
+      if (socialMedia?.provider === 'google' || socialMedia?.provider === 'github') {
+         return { error: 'This email authentication with google or github'}
+      }
+
+      if (!userExit.emailVerified) {
+         return { error: "This email is't verification"}
+      }
 
       const forgetPasswordToken = await db.user.update({
          where: {

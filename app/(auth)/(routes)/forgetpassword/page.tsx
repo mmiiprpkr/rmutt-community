@@ -18,6 +18,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useState } from 'react';
 import { MdOutlineError } from "react-icons/md";
 import { GiConfirmed } from "react-icons/gi";
+import Link from 'next/link';
 
 const formSchema = z.object({
    email: z.string().email().min(1 , {
@@ -28,6 +29,7 @@ const formSchema = z.object({
 const SigninPage = () => {
    const [error,setError] = useState(false);
    const [success,setSuccess] = useState(false);
+   const [msg,setMsg] = useState('');
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
@@ -43,6 +45,7 @@ const SigninPage = () => {
          if (res.error) {
             setSuccess(false);
             setError(true);
+            setMsg(res.error as string)
          }
          if (res.success) {
             setError(false)
@@ -80,7 +83,7 @@ const SigninPage = () => {
                            <div className='flex items-center space-x-2'>
                               <MdOutlineError  className="h-4 w-4" />
                               <AlertDescription>
-                                 email not found
+                                 {msg}
                               </AlertDescription>
                            </div>
                            
@@ -97,11 +100,18 @@ const SigninPage = () => {
                         </Alert>
                      )
                   }
-                  <Button
-                     disabled={isSubmitting}
-                  >
-                     Send
-                  </Button>
+                  <div className='w-full flex items-center justify-between'>
+                     <Button
+                        disabled={isSubmitting}
+                     >
+                        Send
+                     </Button>
+                     <Button variant='link' asChild>
+                        <Link href='/signin'>
+                           back to login
+                        </Link>
+                     </Button>
+                  </div>
                </form>
             </Form>
          </CardContent>

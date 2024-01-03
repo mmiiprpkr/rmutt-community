@@ -1,13 +1,22 @@
-'use client';
-import { ModeToggle } from "@/components/mode-toggle";
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 const HomePage = () => {
+  const session = useSession();
   return ( 
-    <div>
-      <ModeToggle />
-      <Button onClick={() => signOut()} variant="destructive">
+    <div className="flex items-center justify-between">
+      <Link href='/signin'>
+        Signin      
+      </Link>
+      <div>
+        {
+          session?.status === 'authenticated' ? ('authenticated') : 'unauthorized'
+        }
+      </div>
+      <Button onClick={() => signOut()}>
         Logout
       </Button>
     </div>
