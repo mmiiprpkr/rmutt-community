@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
+import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import { signIn } from "next-auth/react"
 
 const formSchema = z.object({
   email: z.string().min(1, {
@@ -38,8 +40,15 @@ export function SigninForm() {
 
     const isSubmitting = form.formState.isSubmitting;
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-      console.log(values)
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+      try {
+        const res = await signIn('credentials', { email: values.email, password: values.password , redirect: false});
+        if (res?.error) {
+          toast.error(res?.error as string);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
 
   return (

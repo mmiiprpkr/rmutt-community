@@ -15,6 +15,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { SocailMedia } from "../signin/_components/social-media";
 import { SignupForm } from "./_components/signup-form";
+import { signIn } from "next-auth/react";
  
 
 const SigninPage = () => {
@@ -37,12 +38,12 @@ const SigninPage = () => {
                <SocailMedia 
                   label="Google"
                   icon={FcGoogle}
-                  onClick={() => {}}
+                  onClick={() => signIn('google', { redirect: false })}
                />
                <SocailMedia 
                   label="GitHub"
                   icon={PiGithubLogoFill}
-                  onClick={() => {}}
+                  onClick={() => signIn('github', { redirect: false })}
                />
             </div>
          </CardFooter>

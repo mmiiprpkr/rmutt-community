@@ -1,9 +1,7 @@
 "use client"
-
 import {
    Card,
    CardContent,
-   CardDescription,
    CardFooter,
    CardHeader,
    CardTitle,
@@ -15,6 +13,7 @@ import {
 import { SigninForm } from "./_components/signin-form";
 import { SocailMedia } from "./_components/social-media";
 import { Separator } from "@/components/ui/separator";
+import { signIn } from "next-auth/react";
  
 
 const SigninPage = () => {
@@ -37,12 +36,12 @@ const SigninPage = () => {
                <SocailMedia 
                   label="Google"
                   icon={FcGoogle}
-                  onClick={() => {}}
+                  onClick={() => signIn('google', { redirect: false })}
                />
                <SocailMedia 
                   label="GitHub"
                   icon={PiGithubLogoFill}
-                  onClick={() => {}}
+                  onClick={() => signIn('github', { redirect: false })}
                />
             </div>
          </CardFooter>

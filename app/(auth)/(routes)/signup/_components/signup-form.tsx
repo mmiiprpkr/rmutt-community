@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
+import axios from 'axios'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import { toast } from "sonner"
 
 const formSchema = z.object({
   username: z.string().min(1, {
@@ -40,8 +42,20 @@ export function SignupForm() {
       },
     })
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-      console.log(values)
+    const isSubmit = form.formState.isSubmitting;
+
+    async function onSubmit(values: z.infer<typeof formSchema>) {
+      try {
+        const { data } = await axios.post('/api/register', values);
+        if (data.error) {
+          toast.error(data.error as string);
+        }
+        if (data.id) {
+          toast.success("Please check your email to vifification")
+        }
+      } catch (error) {
+        console.log(error)
+      }
     }
 
   return (
@@ -54,7 +68,7 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="username" type="text" {...field} />
+                <Input placeholder="username" type="text" {...field} disabled={isSubmit}/>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -67,7 +81,7 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="exaple@mail.com" type="email" {...field} />
+                <Input placeholder="exaple@mail.com" type="email" {...field} disabled={isSubmit} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -80,13 +94,13 @@ export function SignupForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="******" type="password" {...field} />
+                <Input placeholder="******" type="password" {...field} disabled={isSubmit} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isSubmit}>Submit</Button>
         <div className="text-sm">
           <p>Already have an account? <Link href='/signin' className="ml-1">Signin</Link></p>
         </div>

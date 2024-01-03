@@ -12,26 +12,24 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { tokenResetPassword } from '@/actions/token-reset-password';
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useState } from 'react';
 import { MdOutlineError } from "react-icons/md";
-import { GiConfirmed } from "react-icons/gi";
+import { resetPassword } from '@/actions/reset-password';
+import Link from 'next/link';
 
 const formSchema = z.object({
-   email: z.string().email().min(1 , {
-      message: "Email is required"
-   })
+   password: z.string().min(6)
 })
 
-const SigninPage = () => {
+const ResetPassword = ( { params }: { params: { passwordtoken: string }}) => {
    const [error,setError] = useState(false);
-   const [success,setSuccess] = useState(false);
+   const [success, setSuccess] = useState(false);
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
-         email: '',
+         password: '',
       }
    });
 
@@ -39,13 +37,14 @@ const SigninPage = () => {
 
    const onSubmit = async (values: z.infer<typeof formSchema>) => {
       try {
-         const res = await tokenResetPassword(values.email)
+         const res = await resetPassword(params.passwordtoken, values.password);
          if (res.error) {
-            setSuccess(false);
             setError(true);
+            setSuccess(false);
          }
+
          if (res.success) {
-            setError(false)
+            setError(false);
             setSuccess(true);
          }
       } catch (error) {
@@ -63,50 +62,63 @@ const SigninPage = () => {
                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
                   <FormField 
                      control={form.control}
-                     name='email'
+                     name='password'
                      render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Email</FormLabel>
+                          <FormLabel>Reset password</FormLabel>
                           <FormControl>
-                            <Input placeholder="exaple@mail.com" type="email" {...field} disabled={isSubmitting} />
+                            <Input placeholder="exaple@mail.com" type="password" {...field} disabled={isSubmitting} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                   />
                   {
-                     error && !success && (
+                     error && (
                         <Alert variant="destructive" className='flex items-center'>
                            <div className='flex items-center space-x-2'>
                               <MdOutlineError  className="h-4 w-4" />
                               <AlertDescription>
-                                 email not found
+                                 Invalid token
                               </AlertDescription>
                            </div>
                            
                         </Alert>
                      )
                   }
-                  {
-                     success && !error && (
-                        <Alert variant="default">
-                           <div className='flex items-center space-x-2'>
-                              <GiConfirmed  className="h-4 w-4" />
-                              <AlertTitle>Check your email</AlertTitle>
-                           </div>
-                        </Alert>
-                     )
-                  }
-                  <Button
-                     disabled={isSubmitting}
-                  >
-                     Send
-                  </Button>
+                  <div className='flex items-center justify-between'>
+                     <Button
+                        disabled={isSubmitting}
+                     >
+                        Send
+                     </Button>
+                     <Button asChild variant='link'>
+                        <Link href='/signin'>
+                           Back to login
+                        </Link>
+                     </Button>
+                  </div>
                </form>
             </Form>
          </CardContent>
+         {
+            success && (
+               <CardFooter>
+                  <div className='flex items-center justify-between w-full relative'>
+                     <Alert className='flex items-center text-green-600'>
+                        <div className='flex items-center space-x-2'>
+                           <AlertDescription>
+                              password has reset go to login
+                           </AlertDescription>
+                        </div>   
+                     </Alert>
+                  </div>
+               </CardFooter>
+            )
+            
+         }
       </Card>
     );
 }
  
-export default SigninPage;
+export default ResetPassword;
