@@ -12,18 +12,20 @@ const VerifyPage = () => {
    const token = search.get('token');
    const [loading, setLoading] = useState(true);
    const router = useRouter();
+   const [msg, setMsg] = useState('');
    const onSubmit = useCallback( async () => {
      try {
          if (!token) {
             return 
          }
-         const test = await verifyEmail(token);
-         if (test.success) {
+         const verify = await verifyEmail(token);
+         if (verify.success) {
             setLoading(false);
             router.push('/signin')
          }
-         if (test.error) {
+         if (verify.error) {
             setLoading(false);
+            setMsg(verify?.error as string);
          }
      } catch (error) {
          console.log(error)
@@ -43,9 +45,9 @@ const VerifyPage = () => {
          </CardDescription>
          <CardContent className="flex items-center justify-center">
             {
-               loading 
+               !msg 
                ? <BeatLoader hidden={!loading}/>
-               : "Invalid Token"
+               : msg
             }
          </CardContent>
          <CardFooter>

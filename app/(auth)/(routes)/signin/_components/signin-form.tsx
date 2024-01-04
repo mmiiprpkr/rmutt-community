@@ -44,6 +44,9 @@ export function SigninForm() {
       try {
         const res = await signIn('credentials', { email: values.email, password: values.password , redirect: false});
         if (res?.error) {
+          if (res?.error === 'OAuthAccountNotLinked') {
+            return
+          }
           toast.error(res?.error as string);
         }
       } catch (error) {
@@ -87,7 +90,7 @@ export function SigninForm() {
         />
         <Button type="submit" disabled={isSubmitting}>Submit</Button>
         <div className="text-sm">
-          <p>Don&apos;t hava an account? <Link href='/signup' className="ml-1">Signin</Link></p>
+          <p>Don&apos;t hava an account? <Link href='/signup' className="ml-1">Signup</Link></p>
         </div>
       </form>
     </Form>

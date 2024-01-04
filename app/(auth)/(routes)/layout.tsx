@@ -1,9 +1,10 @@
 "use client";
 import { useSession } from "next-auth/react";
-import { redirect, useSearchParams } from "next/navigation";
+import { redirect } from "next/navigation";
 
 const AuthLayout = ( {children }: { children: React.ReactNode }) => {
    const session = useSession();
+
    if (session?.status === "loading") {
       return null;
    }
@@ -12,8 +13,6 @@ const AuthLayout = ( {children }: { children: React.ReactNode }) => {
       return redirect('/');
    }
 
-   
-   
    return ( 
       <div className="h-full flex items-center justify-center">
          {children}
