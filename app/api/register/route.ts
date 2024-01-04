@@ -48,7 +48,7 @@ export async function POST(req: Request) {
       from: process.env.NODEMAILER_EMAIL,
       to: userDoc.email as string,
       subject: 'Verify your email',
-      html: `<a href="${process.env.NEXT_URL}/verify?token=${verificationToken.token}">Click here to verify email</a>`,
+      html: `<a href="${process.env.NEXTAUTH_URL}/verify?token=${verificationToken.token}">Click here to verify email</a>`,
     };
     
     transporter.sendMail(mailOptions, function (error, info) {

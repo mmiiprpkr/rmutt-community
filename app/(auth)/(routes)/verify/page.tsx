@@ -13,14 +13,16 @@ const VerifyPage = () => {
    const [loading, setLoading] = useState(true);
    const router = useRouter();
    const [msg, setMsg] = useState('');
+
    const onSubmit = useCallback( async () => {
      try {
          if (!token) {
-            return 
+            return router.push('/');
          }
          const verify = await verifyEmail(token);
          if (verify.success) {
             setLoading(false);
+            console.log(verify.success);
             router.push('/signin')
          }
          if (verify.error) {

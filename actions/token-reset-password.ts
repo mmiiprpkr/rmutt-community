@@ -50,7 +50,7 @@ export const tokenResetPassword = async ( email: string ) => {
          from: process.env.NODEMAILER_EMAIL,
          to: userExit.email as string,
          subject: 'Confirm to reset you password',
-         html: `<a href="${process.env.NEXT_URL}/forgetpassword/${forgetPasswordToken.forgetpasswordtoken}">Click here to verify email</a>`,
+         html: `<a href="${process.env.NEXTAUTH_URL}/forgetpassword/${forgetPasswordToken.forgetpasswordtoken}">Click here to verify email</a>`,
        };
        
        transporter.sendMail(mailOptions, function (error, info) {
