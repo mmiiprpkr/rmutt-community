@@ -16,7 +16,7 @@ const HomePage = () => {
           session?.status === 'authenticated' ? ('authenticated') : 'unauthorized'
         }
       </div>
-      <Button onClick={() => signOut()}>
+      <Button onClick={() => signOut({redirect: false})}>
         Logout
       </Button>
     </div>
