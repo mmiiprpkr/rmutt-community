@@ -27,7 +27,7 @@ export const verifyEmail = async (token: string) => {
       });
 
       if (!user) {
-         return { error: 'Invalid token or Token expired'}
+         return { error: 'Invalid token or Token expired' }
       }
 
       await db.activateToken.update({
@@ -35,7 +35,8 @@ export const verifyEmail = async (token: string) => {
             token: token
          },
          data: {
-            activatedAt: new Date(Date.now())
+            activatedAt: new Date(Date.now()),
+            token: undefined
          }
       })
 
