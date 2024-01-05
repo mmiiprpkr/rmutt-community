@@ -16,18 +16,11 @@ import { Separator } from "@/components/ui/separator";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Alert } from "@/components/ui/alert";
+import { FormError } from "@/components/alert/error-msg";
  
 
 const SigninPage = () => {
-   const searchParams = useSearchParams();
-   const [error,setError] = useState('');
-   useEffect(() => {
-      const callbackError = searchParams?.get("error");
-      if (callbackError === "OAuthAccountNotLinked") {
-         setError("whoops, there may already be an account with that email")
-      }
-   }, [searchParams]);
+
 
    return ( 
       <Card className="w-[300px] md:w-[500px] mx-auto">
@@ -55,13 +48,7 @@ const SigninPage = () => {
                   icon={PiGithubLogoFill}
                   onClick={() => signIn('github', { redirect: false })}
                />
-               {
-                  error && (
-                     <Alert variant='destructive'>
-                        {error}
-                     </Alert>
-                  )
-               }
+               
             </div>
          </CardFooter>
       </Card>

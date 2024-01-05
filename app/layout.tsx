@@ -26,12 +26,14 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={poppins.className}>
-         <Toaster />
+         <Toaster 
+          position='top-center'
+         />
          <Session>
             <ThemeProvider
               attribute="class"
-              defaultTheme="system"
-              enableSystem
+              defaultTheme="light"
+              // enableSystem
               disableTransitionOnChange
             >
             {children}

@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -18,6 +17,9 @@ import {
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { toast } from "sonner"
+import { FormError } from "@/components/alert/error-msg"
+import { useState } from "react"
+import { FormSuccess } from "@/components/alert/success-msg"
 
 const formSchema = z.object({
   username: z.string().min(1, {
@@ -32,7 +34,8 @@ const formSchema = z.object({
 })
 
 export function SignupForm() {
-  
+  const [error,setError] = useState('');
+  const [success, setSuccess] = useState('');
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
       defaultValues: {
@@ -45,13 +48,15 @@ export function SignupForm() {
     const isSubmit = form.formState.isSubmitting;
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
+      setError('');
+      setSuccess('');
       try {
         const { data } = await axios.post('/api/register', values);
         if (data.error) {
-          toast.error(data.error as string);
+          setError(data.error);
         }
         if (data.id) {
-          toast.success("Please check your email to vifification")
+          setSuccess("Please check your email to vifification");
         }
       } catch (error) {
         console.log(error)
@@ -100,6 +105,16 @@ export function SignupForm() {
             </FormItem>
           )}
         />
+        {
+            error && (
+              <FormError message={error} />
+            )
+        }
+        {
+          success && (
+            <FormSuccess message={success}/>
+          )
+        }
         <Button type="submit" disabled={isSubmit}>Submit</Button>
         <div className="text-sm">
           <p>Already have an account? <Link href='/signin' className="ml-1">Signin</Link></p>

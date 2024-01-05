@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
-import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -18,6 +17,9 @@ import {
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { signIn } from "next-auth/react"
+import { useSearchParams } from "next/navigation"
+import { useEffect, useState } from "react"
+import { FormError } from "@/components/alert/error-msg"
 
 const formSchema = z.object({
   email: z.string().min(1, {
@@ -29,6 +31,16 @@ const formSchema = z.object({
 })
 
 export function SigninForm() {
+
+  const searchParams = useSearchParams();
+  const [error,setError] = useState('');
+
+  useEffect(() => {
+     const callbackError = searchParams?.get("error");
+     if (callbackError === "OAuthAccountNotLinked") {
+        setError("whoops, there may already be an account with that email")
+     }
+  }, [searchParams]);
   
    const form = useForm<z.infer<typeof formSchema>>({
       resolver: zodResolver(formSchema),
@@ -42,12 +54,13 @@ export function SigninForm() {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
       try {
+        setError('');
         const res = await signIn('credentials', { email: values.email, password: values.password , redirect: false});
         if (res?.error) {
           if (res?.error === 'OAuthAccountNotLinked') {
             return
           }
-          toast.error(res?.error as string);
+          setError(res?.error as string);
         }
       } catch (error) {
         console.log(error);
@@ -89,8 +102,13 @@ export function SigninForm() {
           )}
         />
         <Button type="submit" disabled={isSubmitting}>Submit</Button>
-        <div className="text-sm">
+        <div className="text-sm flex space-y-2 flex-col">
           <p>Don&apos;t hava an account? <Link href='/signup' className="ml-1">Signup</Link></p>
+          {
+            error && (
+              <FormError message={error} />
+            )
+          }
         </div>
       </form>
     </Form>

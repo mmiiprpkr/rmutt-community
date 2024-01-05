@@ -16,9 +16,11 @@ import { tokenResetPassword } from '@/actions/token-reset-password';
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useState } from 'react';
-import { MdOutlineError } from "react-icons/md";
 import { GiConfirmed } from "react-icons/gi";
 import Link from 'next/link';
+import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { FormError } from '@/components/alert/error-msg';
+import { FormSuccess } from '@/components/alert/success-msg';
 
 const formSchema = z.object({
    email: z.string().email().min(1 , {
@@ -59,7 +61,7 @@ const SigninPage = () => {
    return ( 
       <Card className="w-[350px] md:w-[500px] mx-auto">
          <CardHeader>
-            <CardTitle className="text-center text-2xl">Forget Password</CardTitle>
+            <CardTitle className="text-center text-2xl">Send email to reset password</CardTitle>
          </CardHeader>
          <CardContent>
             <Form {...form} >
@@ -79,25 +81,12 @@ const SigninPage = () => {
                   />
                   {
                      error && !success && (
-                        <Alert variant="destructive" className='flex items-center'>
-                           <div className='flex items-center space-x-2'>
-                              <MdOutlineError  className="h-4 w-4" />
-                              <AlertDescription>
-                                 {msg}
-                              </AlertDescription>
-                           </div>
-                           
-                        </Alert>
+                        <FormError message={msg}/>
                      )
                   }
                   {
                      success && !error && (
-                        <Alert variant="default">
-                           <div className='flex items-center space-x-2'>
-                              <GiConfirmed  className="h-4 w-4" />
-                              <AlertTitle>Check your email</AlertTitle>
-                           </div>
-                        </Alert>
+                        <FormSuccess message='Check your email' />
                      )
                   }
                   <div className='w-full flex items-center justify-between'>

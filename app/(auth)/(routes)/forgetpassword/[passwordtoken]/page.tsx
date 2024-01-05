@@ -18,6 +18,8 @@ import { useState } from 'react';
 import { MdOutlineError } from "react-icons/md";
 import { resetPassword } from '@/actions/reset-password';
 import Link from 'next/link';
+import { FormError } from '@/components/alert/error-msg';
+import { FormSuccess } from '@/components/alert/success-msg';
 
 const formSchema = z.object({
    password: z.string().min(6)
@@ -67,7 +69,7 @@ const ResetPassword = ( { params }: { params: { passwordtoken: string }}) => {
                         <FormItem>
                           <FormLabel>Reset password</FormLabel>
                           <FormControl>
-                            <Input placeholder="exaple@mail.com" type="password" {...field} disabled={isSubmitting} />
+                            <Input placeholder="******" type="password" {...field} disabled={isSubmitting} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -75,22 +77,14 @@ const ResetPassword = ( { params }: { params: { passwordtoken: string }}) => {
                   />
                   {
                      error && (
-                        <Alert variant="destructive" className='flex items-center'>
-                           <div className='flex items-center space-x-2'>
-                              <MdOutlineError  className="h-4 w-4" />
-                              <AlertDescription>
-                                 Invalid token
-                              </AlertDescription>
-                           </div>
-                           
-                        </Alert>
+                        <FormError message='Invalid Token' />
                      )
                   }
                   <div className='flex items-center justify-between'>
                      <Button
                         disabled={isSubmitting}
                      >
-                        Send
+                        Submit
                      </Button>
                      <Button asChild variant='link'>
                         <Link href='/signin'>
@@ -104,15 +98,7 @@ const ResetPassword = ( { params }: { params: { passwordtoken: string }}) => {
          {
             success && (
                <CardFooter>
-                  <div className='flex items-center justify-between w-full relative'>
-                     <Alert className='flex items-center text-green-600'>
-                        <div className='flex items-center space-x-2'>
-                           <AlertDescription>
-                              password has reset go to login
-                           </AlertDescription>
-                        </div>   
-                     </Alert>
-                  </div>
+                  <FormSuccess message='password has reset go to login' />
                </CardFooter>
             )
             
