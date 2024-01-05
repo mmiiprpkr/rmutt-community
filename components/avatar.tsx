@@ -1,15 +1,13 @@
 "use client"
-import {
-   Avatar,
-   AvatarImage,
- } from "@/components/ui/avatar"
+
+import Image from "next/image"
 
 export const UserAvatar = ({
    src
 }: { src: string }) => {
    return (
-      <Avatar>
-         <AvatarImage src={src || '/error.png'} alt="Profile" />
-    </Avatar>
+    <div className="relative rounded-full w-12 h-12">
+      <Image src={src || '/error.png'} alt="profile" fill className="rounded-full" />
+    </div>
    )
 }
