@@ -1,7 +1,7 @@
 export const publicRoutes = [
    "/",
    "/forgetpassword",
-   "/verify"
+   "/verify",
 ];
 
 export const authRoutes = [
