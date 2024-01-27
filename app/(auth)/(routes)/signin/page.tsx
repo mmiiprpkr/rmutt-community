@@ -11,7 +11,6 @@ import {
  import { PiGithubLogoFill } from "react-icons/pi";
 
 import { SigninForm } from "./_components/signin-form";
-import { SocailMedia } from "./_components/social-media";
 import { Separator } from "@/components/ui/separator";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
@@ -36,21 +35,6 @@ const SigninPage = () => {
                <p className="text-sm font-semibold absolute bg-background -top-3 px-2">or continue with</p>
             </div>
          </div>
-         <CardFooter>
-            <div className="mt-4 space-y-2 w-full">
-               <SocailMedia 
-                  label="Google"
-                  icon={FcGoogle}
-                  onClick={() => signIn('google', { redirect: false })}
-               />
-               <SocailMedia 
-                  label="GitHub"
-                  icon={PiGithubLogoFill}
-                  onClick={() => signIn('github', { redirect: false })}
-               />
-               
-            </div>
-         </CardFooter>
       </Card>
     );
 }

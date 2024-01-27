@@ -12,7 +12,6 @@ import {
  import { PiGithubLogoFill } from "react-icons/pi";
 
 import { Separator } from "@/components/ui/separator";
-import { SocailMedia } from "../signin/_components/social-media";
 import { SignupForm } from "./_components/signup-form";
 import { signIn } from "next-auth/react";
  
@@ -32,20 +31,6 @@ const SigninPage = () => {
                <p className="text-sm font-semibold absolute -top-3 bg-background px-1">or continue with</p>
             </div>
          </div>
-         <CardFooter>
-            <div className="mt-4 space-y-2 w-full">
-               <SocailMedia 
-                  label="Google"
-                  icon={FcGoogle}
-                  onClick={() => signIn('google', { redirect: false })}
-               />
-               <SocailMedia 
-                  label="GitHub"
-                  icon={PiGithubLogoFill}
-                  onClick={() => signIn('github', { redirect: false })}
-               />
-            </div>
-         </CardFooter>
       </Card>
     );
 }
