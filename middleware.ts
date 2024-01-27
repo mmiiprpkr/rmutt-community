@@ -9,7 +9,7 @@ import {
 
 export function middleware(request: NextRequest) {
    const { nextUrl } = request;
-   const isLoggedIn = request.cookies.get('next-auth.session-token')?.value
+   const isLoggedIn = request.cookies.get('__Secure-next-auth.session-token')?.value
 
    const isApiAuthRoute = nextUrl.pathname.startsWith('/api/auth' || '/api/register');
    const isPubicRoute = publicRoutes.includes(nextUrl.pathname);
