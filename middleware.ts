@@ -11,10 +11,10 @@ export function middleware(request: NextRequest) {
    const { nextUrl } = request;
    const isLoggedIn = request.cookies.get('__Secure-next-auth.session-token')?.value
 
-   const isApiAuthRoute = apiAuthPrefix.includes(nextUrl.pathname);
+   const isApiAuthRoute = nextUrl.pathname.startsWith('/api/auth')
    const isPubicRoute = publicRoutes.includes(nextUrl.pathname);
    const isAuthRoute = authRoutes.includes(nextUrl.pathname);
-
+   console.log(isApiAuthRoute)
    if (isApiAuthRoute) {
       return null;
    }
