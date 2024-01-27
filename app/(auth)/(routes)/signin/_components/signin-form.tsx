@@ -17,7 +17,7 @@ import {
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { signIn } from "next-auth/react"
-import { useSearchParams } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { FormError } from "@/components/alert/error-msg"
 
@@ -31,7 +31,7 @@ const formSchema = z.object({
 })
 
 export function SigninForm() {
-
+  const router = useRouter();
   const searchParams = useSearchParams();
   const [error,setError] = useState('');
 
@@ -62,6 +62,8 @@ export function SigninForm() {
           }
           setError(res?.error as string);
         }
+        router.refresh();
+        router.push('/settings')
       } catch (error) {
         console.log(error);
       }
