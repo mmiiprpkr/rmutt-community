@@ -63,7 +63,8 @@ export function SigninForm() {
           setError(res?.error as string);
         }
         router.refresh();
-        router.push('/settings')
+        // window.location.reload();
+        // router.push('/settings')
       } catch (error) {
         console.log(error);
       }
