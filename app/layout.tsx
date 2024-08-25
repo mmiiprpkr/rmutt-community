@@ -15,7 +15,15 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Rmutt | Community",
     description: "Rmutt | Community",
-    images: ["/logo.svg"],
+    images: [
+      {
+        url: "https://utfs.io/f/44efe627-8e03-425d-89a0-0f09e1ed853a-rhubvk.svg",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
   },
 };
 

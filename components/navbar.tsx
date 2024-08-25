@@ -14,10 +14,10 @@ export const Navbar = () => {
         </Link>
         <div className="hidden md:flex items-center gap-2">
           <Link href="/auth/login">
-            <Button>Login</Button>
+            <Button>เข้าสู่ระบบ</Button>
           </Link>
           <Link href="/auth/register">
-            <Button variant="secondary">Register</Button>
+            <Button variant="secondary">สมัครสมาชิก</Button>
           </Link>
         </div>
         <div className="md:hidden">
