@@ -9,7 +9,7 @@ const inputVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-neutral-300 text-primary focus:border-primary",
+        default: "border-neutral-300 text-black focus:border-primary",
         destructive: "border-destructive text-destructive focus:border-destructive"
       }
     },
@@ -38,7 +38,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         />
         <Label
           className={cn(
-            "absolute left-3 top-2 text-xs text-neutral-400 transition-all duration-300 transform peer-placeholder-shown:text-base peer-placeholder-shown:text-neutral-500 peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs pointer-events-none",
+            "absolute left-3 top-1 text-xs text-neutral-400 transition-all duration-300 transform peer-placeholder-shown:text-base peer-placeholder-shown:text-neutral-500 peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs pointer-events-none",
           )}
         >
           {placeholder}
